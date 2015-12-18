@@ -1,0 +1,22 @@
+{
+  "name": "nuntius",
+  "version": "1.0.0",
+  "description": "messaging app using nodejs react and express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joel-Mercier/Nuntius.git"
+  },
+  "author": "Joel Mercier & François Mang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joel-Mercier/Nuntius/issues"
+  },
+  "homepage": "https://github.com/Joel-Mercier/Nuntius#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
