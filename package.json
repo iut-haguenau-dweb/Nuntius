@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/Joel-Mercier/Nuntius#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "body-parser": "^1.14.1",
+    "browserify": "^12.0.1",
+    "express": "^4.13.3",
+    "node-jsx": "^0.13.3",
+    "react": "^0.14.3"
   }
 }
