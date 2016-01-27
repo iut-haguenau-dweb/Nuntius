@@ -26,7 +26,7 @@
               getInitialState: function(){
                 return {
                     messages: [],
-                    people: 'Lemmy',
+                    people: '',
                     loading: true
                 };
               },
@@ -45,24 +45,43 @@
                   var newtable = this.state.messages.concat([message]);
                   this.setState({messages: newtable});
                 },
+                setName:function(event){
+                  var name = this.refs.peopleName.value;
+                  this.setState({people: name});
+                },
+                connected:function() {
+                 return (this.state.people != '')? 
+                  <div id="messageZone">
+                    <input type="text" ref="messageText"/>
+                    <p onClick={this.sendMessage} className="btn" >Send message</p>
+                    <div className="clear"></div>
+                  </div>
+                  : 
+                  <div id="connexion">
+                    <p>Entrez votre nom pseudo :</p>
+                    <input type="text" ref="peopleName"/>
+                    <p onClick={this.setName} className="btn" >Connexion</p>
+                    <div className="clear"></div>
+                  </div>;
+                },
               render: function(){
                   console.log(this.state.messages);
+                  
                   return(
                       <div>
-                        <div id="chat"></div>
+                        <div id="chat">
                         <div id="messages">
                         {this.state.messages.map(function(message){
                           return(
-                            <div>
-                              <p><strong>{message.personne} : </strong>{message.texte}</p>
-                              <span>{message.date.format('MMMM Do YYYY, h:mm:ss a')}</span>
+                            <div className="message">
+                              <p><strong>{message.personne}  </strong><span className="messageDate">{message.date.format('MMMM Do YYYY, h:mm:ss a')}</span><br/>{message.texte}</p>
+                              
                             </div>
                             );
                         })}
                         </div>
-                        <input type="text" ref="messageText"/>
-                        <p onClick={this.sendMessage} id="send" >Send message</p>
-                        <div className="clear"></div>
+                        </div>
+                        {this.connected()}                              
                       </div>
                     );
               }
