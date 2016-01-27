@@ -1,7 +1,7 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var MessageSchema   = new Schema({
+var Conversation_replySchema   = new Schema({
     id: Number
     content: String
     time: Date
@@ -9,4 +9,4 @@ var MessageSchema   = new Schema({
     conversation_id: Number
 });
 
-module.exports = mongoose.model('Message', MessageSchema);
+module.exports = mongoose.model('Conversation_reply', Conversation_replySchema);
