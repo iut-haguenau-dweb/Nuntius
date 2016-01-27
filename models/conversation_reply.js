@@ -2,10 +2,10 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var Conversation_replySchema   = new Schema({
-    id: Number
-    content: String
-    time: Date
-    user_id: Number
+    id: Number,
+    reply: String,
+    time: Date,
+    user_id: Number,
     conversation_id: Number
 });
 
