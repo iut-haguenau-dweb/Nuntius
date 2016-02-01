@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var React = require('react');
 var jsx = require('node-jsx');
 // var mongoose   = require('mongoose');
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var morgan = require('morgan');
 var app = express();
 app.use(morgan('combined'));
@@ -46,10 +46,28 @@ app.use(bodyParser.json());
 // });
 // mongoose.connect(dbURI, {server:{auto_reconnect:true}});
 
+var connection = mysql.createConnection({
+  host     : '0.0.0.0',
+  port     : 8889,
+  user     : 'root',
+  password : 'root',
+  database : 'nuntius'
+});
 
-var Contact = require('./models/contact');
-var Conversation = require('./models/conversation');
-var Conversation_reply = require('./models/conversation_reply');
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+
+  console.log('connected as id ' + connection.threadId);
+});
+
+// var sql    = 'SELECT * FROM users';
+// connection.query(sql, function(err, results) {
+//   console.log(err);
+//   console.log(results);
+// });
 
 // ROUTES
 // =============================================================================
@@ -92,11 +110,13 @@ router.route('/contact')
 
   // get all the contacts (accessed at GET http://localhost:3000/api/contact)
   .get(function(req, res) {
-    contact.find(function(err, contact) {
-      if (err)
-      res.send(err);
-
-      res.json(contact);
+    console.log(req);
+    console.log(res);
+    var sql = 'SELECT * FROM users';
+    connection.query(sql, function(err, results) {
+      console.log(err);
+      console.log(results);
+      res.json(results);
     });
   });
 
@@ -110,5 +130,5 @@ var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('App en cours d\'éxecution http://%s:%s', host, port);
 });
