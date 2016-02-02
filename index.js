@@ -46,10 +46,10 @@ app.use(express.static('public'));
 // API ROUTES
 // =============================================================================
 
-var router = express.Router();              // get an instance of the express Router
+var router = express.Router(); // get an instance of the express Router
 
 router.get('/', function(req, res) {
-  res.json({ message: 'Bienvenue sur l\'api de Nuntius' });
+  res.json({ message: 'Welcome to the Nuntius API!' });
 });
 
 // on routes that end in /contact
@@ -73,23 +73,43 @@ router.route('/contact')
     });
   })
 
-
 // on routes that end in /contact/:user_id
 // ----------------------------------------------------
 router.route('/contact/:user_id')
 
+  // get a specific contact (accessed at GET http://localhost:3000/api/contact/:user_id)
   .get(function(req, res){
     var id = req.params.user_id;
     var sql = 'SELECT * FROM users WHERE user_id = ' + connection.escape(id);
     connection.query(sql, function(err, results) {
       res.json(results);
     });
-  });
+  })
+
+  // update a specific contact (accessed at PUT http://localhost:3000/api/contact/:user_id)
+  .put(function(req, res){
+    var id = req.params.user_id;
+    var username = req.body.username;
+    var sql = 'UPDATE users SET username = ' + connection.escape(username) +' WHERE user_id = ' + connection.escape(id);
+    connection.query(sql, function(err, results) {
+      res.json('Your username has been successfully modified!');
+    });
+  })
+
+  // delete a specific contact (accessed at DELETE http://localhost:3000/api/contact/:user_id)
+  .delete(function(req, res){
+    var id = req.params.user_id;
+    var sql = 'DELETE * FROM users WHERE user_id = '+ connection.escape(id);
+    connection.query(sql, function(err, results) {
+      res.json('Your username has been successfully deleted!');
+    });
+  })
 
 // on routes that end in /conversation
 // ----------------------------------------------------
 router.route('/conversation')
 
+  // create a new conversation (accessed at POST http://localhost:3000/api/conversation)
   .post(function(req, res) {
     var user_one= req.body.user_one;
     var user_two= req.body.user_two;
@@ -103,6 +123,7 @@ router.route('/conversation')
 // ----------------------------------------------------
 router.route('/conversation/:user_id')
 
+  // get all conversations from a contact (accessed at GET http://localhost:3000/api/conversation/:user_id)
   .get(function(req, res){
     var id = req.params.user_id;
     var sql = 'SELECT * FROM conversation WHERE user_one = ' + connection.escape(id) +' OR user_two= ' + connection.escape(id);
@@ -114,6 +135,8 @@ router.route('/conversation/:user_id')
 // on routes that end in /message/:c_id_fk
 // ----------------------------------------------------
 router.route('/message/:c_id_fk')
+
+  // get all messages from a conversation (accessed at GET http://localhost:3000/api/message/:c_id_fk)
   .get(function(req, res){
     var id = req.params.c_id_fk;
     var sql = 'SELECT * FROM conversation_reply WHERE c_id_fk = '+ connection.escape(id);
@@ -122,6 +145,7 @@ router.route('/message/:c_id_fk')
     });
   })
 
+  // post a message in a conversation (accessed at POST http://localhost:3000/api/message/:c_id_fk)
   .post(function(req, res){
     var reply = req.body.reply;
     var user_id_fk = req.body.user_id_fk;
