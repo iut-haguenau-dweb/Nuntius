@@ -17,7 +17,6 @@
   <div class="wrapper">
     <header>
       <h1>Nuntius</h1>
-      <h2>La nouvelle discussion instantanée</h2>
     </header>
     <div id="container">
 
@@ -34,13 +33,13 @@
       componentDidMount: function(){
         var self = this;
         $.ajax('http://localhost:3000/api/contact')
-          .done(function(data, status, xhr){
-            return data;
-          })
-          .fail(function(xhr, status){
-          });
+        .done(function(data, status, xhr){
+          return data;
+        })
+        .fail(function(xhr, status){
+        });
       },
-      displayContact: function(data){
+      displayContact: function(){
         for(var i in data){
           var contact = {
             "user_id": data[i].user_id,
@@ -54,8 +53,8 @@
       },
       render: function(){
         return (
-          <div>
-            <h3>Vos contacts</h3>
+          <div onLoad={this.displayContact}>
+          <h3>Vos contacts</h3>
           </div>
         );
       }
@@ -85,6 +84,7 @@
 
         var newtable = this.state.messages.concat([message]);
         this.setState({messages: newtable});
+        this.refs.messageText.value = '';
       },
       setName:function(event){
         var name = this.refs.peopleName.value;
@@ -93,16 +93,16 @@
       connected:function() {
         return (this.state.people != '')?
         <div id="messageZone">
-        <input type="text" ref="messageText"/>
-        <p onClick={this.sendMessage} className="btn" >Send message</p>
-        <div className="clear"></div>
+          <input type="text" ref="messageText"/>
+          <p onClick={this.sendMessage} className="btn" >Send message</p>
+          <div className="clear"></div>
         </div>
         :
         <div id="connexion">
-        <p>Entrez votre nom pseudo :</p>
-        <input type="text" ref="peopleName"/>
-        <p onClick={this.setName} className="btn" >Connexion</p>
-        <div className="clear"></div>
+          <p>Entrez votre nom pseudo :</p>
+          <input type="text" ref="peopleName"/>
+          <p onClick={this.setName} className="btn" >Connexion</p>
+          <div className="clear"></div>
         </div>;
       },
       render: function(){
@@ -115,8 +115,7 @@
           {this.state.messages.map(function(message){
             return(
               <div className="message">
-              <p><strong>{message.personne}  </strong><span className="messageDate">{message.date.format('MMMM Do YYYY, h:mm:ss a')}</span><br/>{message.texte}</p>
-
+                <p><strong>{message.personne}  </strong><span className="messageDate">{message.date.format('MMMM Do YYYY, h:mm:ss a')}</span><br/>{message.texte}</p>
               </div>
             );
           })}
