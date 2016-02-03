@@ -1,14 +1,10 @@
 var express = require('express');
 var browserify = require('browserify');
 var bodyParser = require('body-parser');
-var React = require('react');
-var jsx = require('node-jsx');
 var mysql = require('mysql');
 var morgan = require('morgan');
 var app = express();
 app.use(morgan('combined'));
-
-jsx.install();
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
