@@ -32,28 +32,32 @@
       },
       componentDidMount: function(){
         var self = this;
+        var contacts = [];
         $.ajax('http://localhost:3000/api/contact')
         .done(function(data, status, xhr){
-          return data;
+          for(var i in data){
+            var contact = {
+              "user_id": data[i].user_id,
+              "username": data[i].username
+            };
+            console.log(contact);
+            console.log(this.state.contacts);
+            var n = this.state.contacts.concat([contact]);
+            debugger;
+            this.setState({contacts: n});
+            console.log(contacts);
+          }
         })
         .fail(function(xhr, status){
         });
+
       },
       displayContact: function(){
-        for(var i in data){
-          var contact = {
-            "user_id": data[i].user_id,
-            "username": data[i].username
-          };
-          console.log(this.state.contacts);
-          var n = this.state.contacts.concat([contact]);
-          this.setState({contacts: n});
-        }
 
       },
       render: function(){
         return (
-          <div onLoad={this.displayContact}>
+          <div>
           <h3>Vos contacts</h3>
           </div>
         );
