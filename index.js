@@ -41,6 +41,9 @@ connection.connect(function(err) {
 app.get('public/', function (req, res) {
   res.send('Hello World!');
 });
+
+
+
 app.use(express.static('public'));
 
 // API ROUTES
@@ -52,8 +55,27 @@ router.get('/', function(req, res) {
   res.json({ message: 'Welcome to the Nuntius API!' });
 });
 
+//liste des utilisateurs connectés
+// ----------------------------------------------------
+
+var listCo = [];
+
+router.route('/connected')
+
+.post(function(req, res) {
+    if(this.state.people != ''){
+      var man = this.state.people;
+      var date = now();
+      var connectionInfo = [man,date];
+      listCo.push(connectionInfo);
+    }
+  res.send('Hello connected!');
+})
+
 // on routes that end in /contact
 // ----------------------------------------------------
+
+
 router.route('/contact')
 
   // create a contact (accessed at POST http://localhost:3000/api/contact)
