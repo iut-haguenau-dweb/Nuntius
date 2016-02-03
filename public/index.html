@@ -19,11 +19,10 @@
       <h1>Nuntius</h1>
       <h2>La nouvelle discussion instantanée</h2>
     </header>
-    <div id="messageContainer">
+    <div id="container">
+
     </div>
-    <div id="contactContainer">
-      <h3>Vos contacts</h3>
-    </div>
+
     <script type="text/babel">
     var ContactList = React.createClass({
 
@@ -34,11 +33,30 @@
       },
       componentDidMount: function(){
         var self = this;
+        $.ajax('http://localhost:3000/api/contact')
+          .done(function(data, status, xhr){
+            return data;
+          })
+          .fail(function(xhr, status){
+          });
+      },
+      displayContact: function(data){
+        for(var i in data){
+          var contact = {
+            "user_id": data[i].user_id,
+            "username": data[i].username
+          };
+          console.log(this.state.contacts);
+          var n = this.state.contacts.concat([contact]);
+          this.setState({contacts: n});
+        }
 
       },
       render: function(){
         return (
-          <div></div>
+          <div>
+            <h3>Vos contacts</h3>
+          </div>
         );
       }
 
@@ -111,9 +129,17 @@
     });
 
     ReactDOM.render(
-      <Chat />,
-      document.getElementById('messageContainer')
+      <div>
+        <div id="messageContainer">
+          <Chat />
+        </div>
+        <div id="contactContainer">
+          <ContactList />
+        </div>
+      </div>,
+      document.getElementById('container')
     );
+
     </script>
   </div>
 
